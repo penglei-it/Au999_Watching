@@ -6,9 +6,11 @@
 - **交易时段后台监测**：仅在上海黄金交易所交易时段自动运行（日间 9:00-15:30，夜间 20:00-02:30）
 - **无需单独配置运行环境**：APK 内嵌 Python，安装即可使用
 
-## 打包环境要求
+## 打包方式
 
-### 方式一：Docker（推荐，Windows 可用）
+**若本地 Docker 无法拉取镜像**，请使用 [GitHub Actions 云端打包](BUILD_GUIDE.md#方式一github-actions-云端打包推荐)。
+
+### 方式一：Docker（需网络可访问 Docker Hub / ghcr.io）
 
 1. 安装并启动 [Docker Desktop](https://www.docker.com/products/docker-desktop)
 2. 在 PowerShell 中执行：
