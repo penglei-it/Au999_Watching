@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+venv/
+.env
+
+# Buildozer
+.buildozer/
+bin/
+*.apk
+
+# 含真实授权码的配置勿提交（使用 config.template.env 作为模板）
+config.example.env
+.env
