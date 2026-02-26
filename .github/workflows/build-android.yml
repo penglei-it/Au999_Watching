@@ -14,12 +14,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build APK with Buildozer
-        uses: digreatbrian/buildozer-action@v2
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          work-dir: mobile
-          buildozer-cmd: buildozer android debug
           python-version: "3.11"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip autoconf libtool pkg-config
+          sudo apt-get install -y zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5
+          sudo apt-get install -y cmake libffi-dev libssl-dev
+
+      - name: Install Buildozer
+        run: pip install Cython==0.29.33 buildozer
+
+      - name: Build APK
+        working-directory: mobile
+        run: buildozer android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
