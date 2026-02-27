@@ -29,7 +29,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y git zip unzip autoconf libtool pkg-config
-          sudo apt-get install -y zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5
+          # Ubuntu 22.04+ 已移除 libtinfo5/libncurses5-dev，改用 ncurses6 系列
+          sudo apt-get install -y zlib1g-dev libncurses-dev libncursesw-dev libtinfo6
           sudo apt-get install -y cmake libffi-dev libssl-dev
 
       - name: Install Buildozer
