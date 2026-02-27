@@ -22,6 +22,8 @@ orientation = portrait
 
 [android]
 permissions = INTERNET
+# CI 自动化构建时自动接受 SDK 许可，避免交互式阻塞
+android.accept_sdk_license = True
 android.api = 31
 android.minapi = 21
 # 仅 arm64 加快首次构建
