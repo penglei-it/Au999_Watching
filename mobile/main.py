@@ -16,12 +16,24 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # 注册中文字体，解决 Android 默认字体不支持中文导致的乱码
 from kivy.core.text import LabelBase
-_font_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
-_font_path = os.path.join(_font_dir, "NotoSansSC-Regular.ttf")
-if os.path.exists(_font_path):
+# 多路径尝试：buildozer 打包后路径可能不同
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_candidates = [
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts", "NotoSansSC-Regular.ttf"),
+    os.path.join(_root, "mobile", "fonts", "NotoSansSC-Regular.ttf"),
+    os.path.join(_root, "fonts", "NotoSansSC-Regular.ttf"),
+]
+_font_path = None
+for p in _candidates:
+    if os.path.exists(p):
+        _font_path = p
+        break
+if _font_path:
     LabelBase.register(name="NotoSansSC", fn_regular=_font_path)
     from kivy.config import Config
     Config.set("kivy", "default_font", ["NotoSansSC"])
+# 供控件显式指定字体（Config 可能不生效时使用）
+FONT_CN = {"font_name": "NotoSansSC"} if _font_path else {}
 
 from kivy.app import App
 from kivy.clock import Clock
@@ -49,6 +61,7 @@ class GoldMonitorApp(App):
             font_size="24sp",
             size_hint_y=None,
             height=dp(48),
+            **FONT_CN,
         )
         root.add_widget(self.price_label)
 
@@ -59,7 +72,7 @@ class GoldMonitorApp(App):
 
         def add_row(title, widget, height=dp(48)):
             row = BoxLayout(size_hint_y=None, height=height)
-            row.add_widget(Label(text=title, size_hint_x=0.35))
+            row.add_widget(Label(text=title, size_hint_x=0.35, **FONT_CN))
             row.add_widget(widget)
             form.add_widget(row)
 
@@ -69,6 +82,7 @@ class GoldMonitorApp(App):
             multiline=False,
             size_hint_y=None,
             height=dp(40),
+            **FONT_CN,
         )
         add_row("阈值(元/克):", self.threshold_input)
 
@@ -78,6 +92,7 @@ class GoldMonitorApp(App):
             multiline=False,
             size_hint_y=None,
             height=dp(40),
+            **FONT_CN,
         )
         add_row("轮询间隔(秒):", self.interval_input)
 
@@ -87,6 +102,7 @@ class GoldMonitorApp(App):
             multiline=False,
             size_hint_y=None,
             height=dp(40),
+            **FONT_CN,
         )
         add_row("发件邮箱:", self.sender_input)
 
@@ -97,6 +113,7 @@ class GoldMonitorApp(App):
             multiline=False,
             size_hint_y=None,
             height=dp(40),
+            **FONT_CN,
         )
         add_row("授权码:", self.auth_input)
 
@@ -106,12 +123,13 @@ class GoldMonitorApp(App):
             multiline=False,
             size_hint_y=None,
             height=dp(40),
+            **FONT_CN,
         )
         add_row("收件邮箱:", self.receiver_input)
 
         trading_row = BoxLayout(size_hint_y=None, height=dp(48))
         self.trading_switch = Switch(active=self.config.get("trading_hours_only", True))
-        trading_row.add_widget(Label(text="仅交易时段监测:", size_hint_x=0.5))
+        trading_row.add_widget(Label(text="仅交易时段监测:", size_hint_x=0.5, **FONT_CN))
         trading_row.add_widget(self.trading_switch)
         form.add_widget(trading_row)
 
@@ -121,13 +139,13 @@ class GoldMonitorApp(App):
         # 按钮区
         btn_box = BoxLayout(size_hint_y=None, height=dp(50), spacing=dp(8))
         btn_box.add_widget(
-            Button(text="保存配置", on_press=self._save_config)
+            Button(text="保存配置", on_press=self._save_config, **FONT_CN)
         )
         btn_box.add_widget(
-            Button(text="刷新金价", on_press=self._refresh_price)
+            Button(text="刷新金价", on_press=self._refresh_price, **FONT_CN)
         )
         btn_box.add_widget(
-            Button(text="启动监测", on_press=self._start_monitor)
+            Button(text="启动监测", on_press=self._start_monitor, **FONT_CN)
         )
         root.add_widget(btn_box)
 
@@ -136,6 +154,7 @@ class GoldMonitorApp(App):
             font_size="12sp",
             size_hint_y=None,
             height=dp(32),
+            **FONT_CN,
         )
         root.add_widget(self.status_label)
 

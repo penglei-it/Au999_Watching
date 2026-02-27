@@ -22,6 +22,8 @@ orientation = portrait
 
 [android]
 permissions = INTERNET
+# 显式将字体加入 assets，确保打包进 APK
+android.add_assets = mobile/fonts:fonts
 # CI 自动化构建时自动接受 SDK 许可，避免交互式阻塞
 android.accept_sdk_license = True
 android.api = 31
