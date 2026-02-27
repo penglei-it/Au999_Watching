@@ -14,6 +14,15 @@ import sys
 # 将 app 目录加入路径，供 service 使用
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# 注册中文字体，解决 Android 默认字体不支持中文导致的乱码
+from kivy.core.text import LabelBase
+_font_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
+_font_path = os.path.join(_font_dir, "NotoSansSC-Regular.ttf")
+if os.path.exists(_font_path):
+    LabelBase.register(name="NotoSansSC", fn_regular=_font_path)
+    from kivy.config import Config
+    Config.set("kivy", "default_font", ["NotoSansSC"])
+
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout

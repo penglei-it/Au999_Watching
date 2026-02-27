@@ -8,9 +8,9 @@ package.domain = org.test
 
 # 源码根目录为 spec 所在目录的上级（项目根）
 source.dir = ..
-source.include_exts = py,png,jpg,kv,atlas,json
-# 明确包含所需模块，避免遗漏
-source.include_patterns = main.py,app/*.py,mobile/*.py
+source.include_exts = py,png,jpg,kv,atlas,json,ttf
+# 明确包含所需模块及中文字体，避免遗漏
+source.include_patterns = main.py,app/*.py,mobile/*.py,mobile/fonts/*.ttf
 
 version = 0.1
 requirements = python3,kivy
