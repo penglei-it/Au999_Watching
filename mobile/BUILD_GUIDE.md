@@ -22,12 +22,13 @@ GitHub 服务器在国外，可正常拉取依赖并完成构建。
 ```powershell
 cd c:\Au999_Watching
 
-# 添加远程仓库（将 YOUR_USERNAME 替换为你的 GitHub 用户名）
+# 方式 A：手动指定（将 YOUR_USERNAME 替换为你的 GitHub 用户名）
 git remote add origin https://github.com/YOUR_USERNAME/Au999_Watching.git
-
-# 推送
 git branch -M main
 git push -u origin main
+
+# 方式 B：使用脚本（先编辑 push_and_build.ps1 修改 Username）
+.\push_and_build.ps1 -Username YOUR_USERNAME -RepoName Au999_Watching
 ```
 
 3. **下载 APK**
@@ -39,6 +40,12 @@ git push -u origin main
 ### 手动触发
 
 在 Actions 页面点击 "Build Android APK" → "Run workflow" 可手动触发构建。
+
+---
+
+## iOS 版本打包
+
+在 Actions 页面选择 **"Build iOS App"** → "Run workflow"，等待约 60–90 分钟，在 Artifacts 下载 `goldmonitor-ios`。当前为模拟器版本（无签名）；真机需 Apple Developer 账号。
 
 ---
 

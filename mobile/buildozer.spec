@@ -29,6 +29,10 @@ android.minapi = 21
 # 仅 arm64 加快首次构建
 android.archs = arm64-v8a
 
+# iOS 配置（需 macOS + Xcode 构建）
+[ios]
+ios.codesign.allowed = False
+
 [buildozer]
 log_level = 2
 warn_on_root = 1

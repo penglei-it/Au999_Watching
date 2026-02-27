@@ -1,0 +1,40 @@
+# GitHub Actions: 云端打包 iOS 应用
+# 需 macOS 环境，构建时间较长；真机安装需 Apple Developer 账号
+
+name: Build iOS App
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14  # Xcode 15+ 预装
+    timeout-minutes: 120  # iOS 首次构建约 60–90 分钟
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Homebrew dependencies
+        run: |
+          brew install pkg-config sdl2 sdl2_image sdl2_ttf sdl2_mixer autoconf automake
+          brew install gstreamer 2>/dev/null || true
+
+      - name: Install Buildozer and kivy-ios
+        run: pip install Cython==0.29.33 kivy-ios buildozer
+
+      - name: Build iOS app
+        working-directory: mobile
+        run: yes | buildozer ios debug
+
+      - name: Upload iOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: goldmonitor-ios
+          path: mobile/bin/
